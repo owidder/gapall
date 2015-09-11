@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        h1 {
+            background-color: teal;
+            color: white;
+        }
+    </style>
+</head>
+<p>
+
+
+<h1>Component Dependency Force</h1>
+<div ng-show="loading">
+    <img style="-webkit-user-select: none" src="images/spinning-wheel.gif">
+</div>
+<dependency-force width="{{width}}" height="{{height}}" force-id="compForce" ready="dataReadyPromise" test="test"></dependency-force>
+
+</body>
+</html>

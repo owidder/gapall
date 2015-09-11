@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="d3Demo" ng-controller="MainController">
+<head>
+    <link rel="stylesheet" type="text/css" href="bower_components/materialize/bin/materialize.css"
+          media="screen,projection"/>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    <script src="lib/colorbrewer.js"></script>
+
+    <script>
+        __global = {
+            appName: "d3Demo"
+        }
+    </script>
+
+    <script src="js/app.js"></script>
+
+    <script src="js/factory/util.js"></script>
+    <script src="js/factory/mathutil.js"></script>
+    <script src="js/factory/screen.js"></script>
+    <script src="js/factory/neo4j.js"></script>
+    <script src="js/factory/components.js"></script>
+    <script src="js/factory/colorutil.js"></script>
+
+    <script src="js/directive/dependencyForceDirective.js"></script>
+
+    <script src="js/controller/MainController.js"></script>
+    <script src="js/controller/ComponentsController.js"></script>
+
+    <meta charset="UTF-8">
+    <title>d3 Force Demo</title>
+</head>
+<body>
+
+<div ng-view></div>
+
+</body>
+</html>
