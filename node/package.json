@@ -4,6 +4,7 @@
   "description": "",
   "main": "req.js",
   "dependencies": {
+    "q": "^1.4.1",
     "request": "^2.62.0"
   },
   "devDependencies": {},
