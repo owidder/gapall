@@ -4,26 +4,32 @@ var Q = require("q");
 
 var constants = require("./util/constants");
 var gapUtil = require("./util/gapUtil");
+var domUtil = require("./util/domUtil");
 
-function getFirstLink() {
+function getPathToFirstPost() {
     var defer = Q.defer();
 
-    gapUtil.readPageDom("/").then(function($) {
-        var link = gapUtil.firstLinkToPostOnHomePage($);
-        defer.resolve(link);
+    domUtil.readPageDom(constants.HOST).then(function($) {
+        var path = gapUtil.pathToFirstPostOnHomePage($);
+        defer.resolve(path);
     });
 
     return defer.promise;
 }
 
-function saveImageFromPage(page) {
-    gapUtil.readPageDom(page).then(function($) {
-        var src = gapUtil.firstUrlOfImageOnPostPage($);
+function saveImageFromPage(path) {
+    var defer = Q.defer();
+
+    domUtil.readPageDom(path).then(function($) {
+        var src = gapUtil.pathToFirstImageOnPostPage($);
+        defer.resolve(src);
     });
+
+    return defer.promise;
 }
 
-getFirstLink().then(function (page) {
-        console.log(result);
+getPathToFirstPost().then(function (path) {
+        saveImageFromPage(constants.HOST + path);
     },
     function (error) {
         console.error(error);

@@ -2,6 +2,7 @@
 
 var Q = require("q");
 var cheerio = require("cheerio");
+var request = require("request");
 
 function readPageDom(url) {
     var defer = Q.defer();
@@ -14,11 +15,10 @@ function readPageDom(url) {
     };
 
     request.get(options, function (error, response) {
-        var body = response.body;
-
         if (error) {
             defer.reject(error);
         } else {
+            var body = response.body;
             var $ = cheerio.load(body);
             defer.resolve($);
         }
