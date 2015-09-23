@@ -1,30 +1,31 @@
 'use strict';
 
-var request = require("request");
 var Q = require("q");
+
+var constants = require("./util/constants");
+var gapUtil = require("./util/gapUtil");
 
 function getFirstLink() {
     var defer = Q.defer();
 
-    var options = {
-        url: "http://geek-and-poke.com",
-        headers: {
-            "User-Agent": "request"
-        }
-    };
-
-    request.get(options, function(error, response) {
-        if(error) {
-            console.log(error);
-        } else {
-            defer.resolve(response.body);
-        }
+    gapUtil.readPageDom("/").then(function($) {
+        var link = gapUtil.firstLinkToPostOnHomePage($);
+        defer.resolve(link);
     });
 
     return defer.promise;
 }
 
-getFirstLink().then(function(result) {
-   console.log(result);
-});
+function saveImageFromPage(page) {
+    gapUtil.readPageDom(page).then(function($) {
+        var src = gapUtil.firstUrlOfImageOnPostPage($);
+    });
+}
+
+getFirstLink().then(function (page) {
+        console.log(result);
+    },
+    function (error) {
+        console.error(error);
+    });
 

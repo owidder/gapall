@@ -4,6 +4,7 @@
   "description": "",
   "main": "req.js",
   "dependencies": {
+    "cheerio": "^0.19.0",
     "q": "^1.4.1",
     "request": "^2.62.0"
   },
