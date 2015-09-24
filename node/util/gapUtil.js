@@ -2,15 +2,30 @@
 
 var Q = require("q");
 
+var constants = require("./constants");
+
+function createUrlToThumbnail(fullUrl) {
+    var thumbnailUrl = fullUrl + "?format=1w";
+    return thumbnailUrl;
+}
+
+function urlFromPath(path) {
+    return constants.HOST + path;
+}
+
 function pathToFirstPostOnHomePage($) {
-    return $(".entry-title a").attr("href");
+    var path = $(".entry-title a").attr("href");
+    return path;
 }
 
 function pathToFirstImageOnPostPage($) {
-    return $("div.lightbox img").attr("src");
+    var path = $("div.lightbox img").attr("src");
+    return path;
 }
 
 module.exports = {
     pathToFirstPostOnHomePage: pathToFirstPostOnHomePage,
-    pathToFirstImageOnPostPage: pathToFirstImageOnPostPage
+    pathToFirstImageOnPostPage: pathToFirstImageOnPostPage,
+    urlFromPath: urlFromPath,
+    createUrlToThumbnail: createUrlToThumbnail
 };

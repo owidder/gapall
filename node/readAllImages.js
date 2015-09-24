@@ -2,14 +2,13 @@
 
 var Q = require("q");
 
-var constants = require("./util/constants");
 var gapUtil = require("./util/gapUtil");
-var domUtil = require("./util/domUtil");
+var reqUtil = require("./util/reqUtil");
 
 function getPathToFirstPost() {
     var defer = Q.defer();
 
-    domUtil.readPageDom(constants.HOST).then(function($) {
+    reqUtil.readPageDom(gapUtil.urlFromPath("/")).then(function($) {
         var path = gapUtil.pathToFirstPostOnHomePage($);
         defer.resolve(path);
     });
@@ -20,8 +19,17 @@ function getPathToFirstPost() {
 function saveImageFromPage(path) {
     var defer = Q.defer();
 
-    domUtil.readPageDom(path).then(function($) {
+    function filenameFromSrc(src) {
+        var filenameBase = /\/(\d+)\/$/.exec(src);
+        var filename = filenameBase + ".jpeg";
+        return filename;
+    }
+
+    reqUtil.readPageDom(gapUtil.urlFromPath(path)).then(function($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
+        reqUtil.readImage(gapUtil.createUrlToThumbnail(src)).then(function(data) {
+            console.log("img received");
+        });
         defer.resolve(src);
     });
 
@@ -29,7 +37,7 @@ function saveImageFromPage(path) {
 }
 
 getPathToFirstPost().then(function (path) {
-        saveImageFromPage(constants.HOST + path);
+        saveImageFromPage(path);
     },
     function (error) {
         console.error(error);
