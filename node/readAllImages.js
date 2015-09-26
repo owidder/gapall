@@ -3,6 +3,8 @@
 var Q = require("q");
 var fs = require("fs");
 
+var sanitize = require("sanitize-filename");
+
 var gapUtil = require("./util/gapUtil");
 var reqUtil = require("./util/reqUtil");
 var zero = require("./util/zero");
@@ -23,8 +25,9 @@ function getPathToFirstPost() {
 function saveImageFromPage(pathToPage) {
     var defer = Q.defer();
 
-    function filenameFromSrc(src) {
-        var filenameBase = /^.*\/(\d+)\/$/.exec(src)[1];
+    function filenameFromTitle(title) {
+        var filenameBase = sanitize(title);
+        filenameBase = filenameBase.replace(/ /g, "_");;
         var filename = filenameBase + ".jpeg";
         return filename;
     }
@@ -40,9 +43,9 @@ function saveImageFromPage(pathToPage) {
     var url = gapUtil.urlFromPath(pathToPage);
     reqUtil.readPageDom(url).then(function($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
-        var filename = filenameFromSrc(src);
-        var filepath = pathToImage(filename);
         var title = gapUtil.title($);
+        var filename = filenameFromTitle(title);
+        var filepath = pathToImage(filename);
         var pathToNextPost = gapUtil.pathToNextPost($);
         if(!fs.existsSync(filepath)) {
             reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function() {

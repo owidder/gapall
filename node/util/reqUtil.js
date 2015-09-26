@@ -31,20 +31,20 @@ function readImage(url) {
     return defer.promise;
 }
 
-function readAndSaveImage(url, filename) {
+function readAndSaveImage(url, filepath) {
     var defer = Q.defer();
 
     var options = createReqOptions(url);
 
-    var req = request(url);
+    var req = request.get(options);
     req.on("response", function(response) {
-        var stream = fs.createWriteStream(filename);
+        var stream = fs.createWriteStream(filepath);
         response.on("data", function(chunk) {
             stream.write(chunk);
         }).on("end", function() {
             stream.end();
-            defer.resolve(filename + " saved");
-        })
+            defer.resolve(filepath + " saved");
+        });
     });
 
     return defer.promise;
