@@ -18,14 +18,26 @@ function pathToFirstPostOnHomePage($) {
     return path;
 }
 
+function title($) {
+    var title = $(".entry-title a").text();
+    return title;
+}
+
 function pathToFirstImageOnPostPage($) {
     var path = $("div.lightbox img").attr("src");
     return path;
+}
+
+function pathToNextPost($) {
+    var pathToNextPost = $("a.next-item").attr("href");
+    return pathToNextPost;
 }
 
 module.exports = {
     pathToFirstPostOnHomePage: pathToFirstPostOnHomePage,
     pathToFirstImageOnPostPage: pathToFirstImageOnPostPage,
     urlFromPath: urlFromPath,
-    createUrlToThumbnail: createUrlToThumbnail
+    createUrlToThumbnail: createUrlToThumbnail,
+    title: title,
+    pathToNextPost: pathToNextPost
 };
