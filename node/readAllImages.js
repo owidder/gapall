@@ -20,7 +20,7 @@ function getPathToFirstPost() {
     return defer.promise;
 }
 
-function saveImageFromPage(path) {
+function saveImageFromPage(pathToPage) {
     var defer = Q.defer();
 
     function filenameFromSrc(src) {
@@ -37,27 +37,32 @@ function saveImageFromPage(path) {
         return fields.join(ALL_IMAGES_DELIMITER) + "\n";
     }
 
-    var url = gapUtil.urlFromPath(path);
+    var url = gapUtil.urlFromPath(pathToPage);
     reqUtil.readPageDom(url).then(function($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
         var filename = filenameFromSrc(src);
         var filepath = pathToImage(filename);
-        reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function() {
-            var title = gapUtil.title($);
-            var pathToNextPost = gapUtil.pathToNextPost($);
-            fs.write(allImagesFile, createAllImagesLine([src, filename, title, path]), function() {
-                defer.resolve(pathToNextPost);
+        var title = gapUtil.title($);
+        var pathToNextPost = gapUtil.pathToNextPost($);
+        if(!fs.existsSync(filepath)) {
+            reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function() {
+                fs.write(allImagesFile, createAllImagesLine([src, filename, title, pathToPage]), function() {
+                    defer.resolve(pathToNextPost);
+                });
             });
-        });
+        }
+        else {
+            defer.resolve(pathToNextPost);
+        }
     });
 
     return defer.promise;
 }
 
-function saveImagesRecursively(path) {
-    saveImageFromPage(path).then(function(nextPath) {
-        if(zero.isSet(nextPath)) {
-            saveImagesRecursively(nextPath);
+function saveImagesRecursively(pathToPage) {
+    saveImageFromPage(pathToPage).then(function(pathToNextPage) {
+        if(zero.isSet(pathToNextPage)) {
+            saveImagesRecursively(pathToNextPage);
         }
         else {
             process.exit(0);
@@ -67,8 +72,8 @@ function saveImagesRecursively(path) {
 
 var allImagesFile = fs.openSync("./allImages.txt", "w");
 
-getPathToFirstPost().then(function (path) {
-        saveImagesRecursively(path);
+getPathToFirstPost().then(function (pathToPage) {
+        saveImagesRecursively(pathToPage);
     },
     function (error) {
         console.error(error);

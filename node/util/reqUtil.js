@@ -36,8 +36,15 @@ function readAndSaveImage(url, filename) {
 
     var options = createReqOptions(url);
 
-    request(url).pipe(fs.createWriteStream(filename)).on('close', function() {
-        defer.resolve(filename + " saved");
+    var req = request(url);
+    req.on("response", function(response) {
+        var stream = fs.createWriteStream(filename);
+        response.on("data", function(chunk) {
+            stream.write(chunk);
+        }).on("end", function() {
+            stream.end();
+            defer.resolve(filename + " saved");
+        })
     });
 
     return defer.promise;
