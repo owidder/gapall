@@ -20,16 +20,15 @@ function saveImageFromPage(path) {
     var defer = Q.defer();
 
     function filenameFromSrc(src) {
-        var filenameBase = /\/(\d+)\/$/.exec(src);
-        var filename = filenameBase + ".jpeg";
+        var filenameBase = /^.*\/(\d+)\/$/.exec(src)[1];
+        var filename = "./images/" + filenameBase + ".jpeg";
         return filename;
     }
 
     reqUtil.readPageDom(gapUtil.urlFromPath(path)).then(function($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
-        reqUtil.readImage(gapUtil.createUrlToThumbnail(src)).then(function(data) {
-            console.log("img received");
-        });
+        var filename = filenameFromSrc(src);
+        reqUtil.readIAndSaveImage(gapUtil.createUrlToThumbnail(src), filename);
         defer.resolve(src);
     });
 

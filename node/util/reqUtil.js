@@ -1,6 +1,8 @@
 'use strict';
 
+var fs = require("fs");
 var Q = require("q");
+
 var cheerio = require("cheerio");
 var request = require("request");
 
@@ -29,6 +31,18 @@ function readImage(url) {
     return defer.promise;
 }
 
+function readIAndSaveImage(url, filename) {
+    var defer = Q.defer();
+
+    var options = createReqOptions(url);
+
+    request(url).pipe(fs.createWriteStream(filename)).on('close', function() {
+        defer.resolve(filename + " saved");
+    });
+
+    return defer.promise;
+}
+
 function readPageDom(url) {
     var defer = Q.defer();
 
@@ -49,5 +63,6 @@ function readPageDom(url) {
 
 module.exports = {
     readPageDom: readPageDom,
-    readImage: readImage
+    readImage: readImage,
+    readIAndSaveImage: readIAndSaveImage
 };
