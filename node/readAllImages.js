@@ -28,7 +28,7 @@ function saveImageFromPage(path) {
     reqUtil.readPageDom(gapUtil.urlFromPath(path)).then(function($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
         var filename = filenameFromSrc(src);
-        reqUtil.readIAndSaveImage(gapUtil.createUrlToThumbnail(src), filename);
+        reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filename);
         defer.resolve(src);
     });
 

@@ -31,7 +31,7 @@ function readImage(url) {
     return defer.promise;
 }
 
-function readIAndSaveImage(url, filename) {
+function readAndSaveImage(url, filename) {
     var defer = Q.defer();
 
     var options = createReqOptions(url);
@@ -64,5 +64,5 @@ function readPageDom(url) {
 module.exports = {
     readPageDom: readPageDom,
     readImage: readImage,
-    readIAndSaveImage: readIAndSaveImage
+    readAndSaveImage: readAndSaveImage
 };
