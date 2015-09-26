@@ -14,7 +14,7 @@ var ALL_IMAGES_DELIMITER = "_#_";
 function getPathToFirstPost() {
     var defer = Q.defer();
 
-    reqUtil.readPageDom(gapUtil.urlFromPath("/")).then(function($) {
+    reqUtil.readPageDom(gapUtil.urlFromPath("/")).then(function ($) {
         var path = gapUtil.pathToFirstPostOnHomePage($);
         defer.resolve(path);
     });
@@ -25,9 +25,8 @@ function getPathToFirstPost() {
 function saveImageFromPage(pathToPage) {
     var defer = Q.defer();
 
-    function filenameFromTitle(title) {
-        var filenameBase = sanitize(title);
-        filenameBase = filenameBase.replace(/ /g, "_");;
+    function filenameFromPagePath(pathToPage) {
+        var filenameBase = sanitize(pathToPage);
         var filename = filenameBase + ".jpeg";
         return filename;
     }
@@ -41,15 +40,15 @@ function saveImageFromPage(pathToPage) {
     }
 
     var url = gapUtil.urlFromPath(pathToPage);
-    reqUtil.readPageDom(url).then(function($) {
+    reqUtil.readPageDom(url).then(function ($) {
         var src = gapUtil.pathToFirstImageOnPostPage($);
         var title = gapUtil.title($);
-        var filename = filenameFromTitle(title);
+        var filename = filenameFromPagePath(pathToPage);
         var filepath = pathToImage(filename);
         var pathToNextPost = gapUtil.pathToNextPost($);
-        if(!fs.existsSync(filepath)) {
-            reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function() {
-                fs.write(allImagesFile, createAllImagesLine([src, filename, title, pathToPage]), function() {
+        if (!fs.existsSync(filepath)) {
+            reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function () {
+                fs.write(allImagesFile, createAllImagesLine([src, filename, title, pathToPage]), function () {
                     defer.resolve(pathToNextPost);
                 });
             });
@@ -63,8 +62,9 @@ function saveImageFromPage(pathToPage) {
 }
 
 function saveImagesRecursively(pathToPage) {
-    saveImageFromPage(pathToPage).then(function(pathToNextPage) {
-        if(zero.isSet(pathToNextPage)) {
+    console.log(pathToPage);
+    saveImageFromPage(pathToPage).then(function (pathToNextPage) {
+        if (zero.isSet(pathToNextPage)) {
             saveImagesRecursively(pathToNextPage);
         }
         else {
@@ -75,9 +75,15 @@ function saveImagesRecursively(pathToPage) {
 
 var allImagesFile = fs.openSync("./allImages.txt", "w");
 
-getPathToFirstPost().then(function (pathToPage) {
-        saveImagesRecursively(pathToPage);
-    },
-    function (error) {
-        console.error(error);
-    });
+if (process.argv.length > 2) {
+    saveImagesRecursively(process.argv[2]);
+}
+else {
+    getPathToFirstPost().then(function (pathToPage) {
+            saveImagesRecursively(pathToPage);
+        },
+        function (error) {
+            console.error(error);
+        });
+}
+
