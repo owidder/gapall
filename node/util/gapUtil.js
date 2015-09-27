@@ -47,13 +47,37 @@ function pathToFirstImageOnPostPage($) {
     return path;
 }
 
-function pathToNextPost($) {
-    var pathToNextPost = $("a.next-item").attr("href");
-    if(!zero.isSet(pathToNextPost)) {
-        console.error("could not find path to next post");
-        process.exit(-1);
+var pathToNextPostExemptions = [
+    {
+        from: "/geekandpoke/2008/7/17/the-history-of-the-telephone-part-1.html",
+        to: "/geekandpoke/2008/7/16/spooky-twitter.html"
     }
-    return pathToNextPost;
+];
+
+function checkForPathToNextPostExemption(currentPath) {
+    var thePathToNextPost;
+
+    pathToNextPostExemptions.forEach(function(exemption) {
+        if(currentPath == exemption.from) {
+            thePathToNextPost = exemption.to;
+        }
+    });
+
+    return thePathToNextPost;
+}
+
+function pathToNextPost($, currentPath) {
+    var thePathToNextPost = checkForPathToNextPostExemption(currentPath);
+
+    if(!zero.isSet(thePathToNextPost)) {
+        thePathToNextPost = $("a.next-item").attr("href");
+        if(!zero.isSet(thePathToNextPost)) {
+            console.error("could not find path to next post");
+            process.exit(-1);
+        }
+    }
+
+    return thePathToNextPost;
 }
 
 module.exports = {
