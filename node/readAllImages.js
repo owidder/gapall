@@ -29,10 +29,10 @@ function getPathToFirstPost() {
 }
 
 function checkForProcessing(pathToPage) {
+    var entry = allProcessedPaths[pathToPage];
     var pathToNextPage;
-    var index = allProcessedPaths.indexOf(pathToPage);
-    if(index < allProcessedPaths.length - 1) {
-        pathToNextPage = allProcessedPaths[index + 1];
+    if(zero.isDefined(entry)) {
+        pathToNextPage = entry.pathToNextPage;
     }
 
     return pathToNextPage;
@@ -67,17 +67,19 @@ function saveImageFromPage(pathToPage) {
             var title = gapUtil.title($);
             var filename = filenameFromPagePath(pathToPage);
             var filepath = pathToImage(filename);
-            pathToNextPost = gapUtil.pathToNextPost($);
-            if (!fs.existsSync(filepath)) {
-                reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function () {
-                    fs.write(allImagesFile, createAllImagesLine([src, filename, title, pathToPage]), function () {
+            pathToNextPost = gapUtil.pathToNextPost($, pathToPage);
+            fs.appendFile(allImagesFile, createAllImagesLine([src, filename, title, pathToPage, pathToNextPost]), function () {
+                if (fs.existsSync(filepath)) {
+                    console.log(filepath + " exists");
+                    defer.resolve(pathToNextPost);
+                }
+                else {
+                    reqUtil.readAndSaveImage(gapUtil.createUrlToThumbnail(src), filepath).then(function () {
+                        console.log(filepath + " written");
                         defer.resolve(pathToNextPost);
                     });
-                });
-            }
-            else {
-                defer.resolve(pathToNextPost);
-            }
+                }
+            });
         });
     }
 
@@ -99,15 +101,20 @@ function saveImagesRecursively(pathToPage) {
 function readAllProcessedPaths() {
     var defer = Q.defer();
 
-    allProcessedPaths = [];
+    allProcessedPaths = {};
 
     var lineReader = new LineReader(ALL_IMAGES_FILENAME);
 
     lineReader.on("line", function(line) {
         var parts = line.split(ALL_IMAGES_DELIMITER);
-        var processedPath = parts[parts.length - 1];
-
-        allProcessedPaths.push(processedPath);
+        var entry = {
+            src: parts[0],
+            filename: parts[1],
+            title: parts[2],
+            pathToPage: parts[3],
+            pathToNextPage: parts[4]
+        };
+        allProcessedPaths[entry.pathToPage] = entry;
     });
 
     lineReader.on("end", function() {
