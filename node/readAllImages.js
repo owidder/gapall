@@ -14,7 +14,6 @@ var zero = require("./util/zero");
 var ALL_IMAGES_DELIMITER = "_#_";
 var ALL_IMAGES_FILENAME = "./allImages.txt";
 
-var allImagesFile;
 var allProcessedPaths;
 
 function getPathToFirstPost() {
@@ -58,6 +57,7 @@ function saveImageFromPage(pathToPage) {
 
     var pathToNextPost = checkForProcessing(pathToPage);
     if(zero.isSet(pathToNextPost)) {
+        console.log("entry exists");
         defer.resolve(pathToNextPost);
     }
     else {
@@ -68,7 +68,7 @@ function saveImageFromPage(pathToPage) {
             var filename = filenameFromPagePath(pathToPage);
             var filepath = pathToImage(filename);
             pathToNextPost = gapUtil.pathToNextPost($, pathToPage);
-            fs.appendFile(allImagesFile, createAllImagesLine([src, filename, title, pathToPage, pathToNextPost]), function () {
+            fs.appendFile(ALL_IMAGES_FILENAME, createAllImagesLine([src, filename, title, pathToPage, pathToNextPost]), function () {
                 if (fs.existsSync(filepath)) {
                     console.log(filepath + " exists");
                     defer.resolve(pathToNextPost);
@@ -123,8 +123,6 @@ function readAllProcessedPaths() {
 
     return defer.promise;
 }
-
-allImagesFile = fs.openSync(ALL_IMAGES_FILENAME, "r+");
 
 readAllProcessedPaths().then(function() {
     var pathParam, lastPath;

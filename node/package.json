@@ -8,7 +8,8 @@
     "line-by-line": "^0.1.4",
     "q": "^1.4.1",
     "request": "^2.62.0",
-    "sanitize-filename": "^1.4.4"
+    "sanitize-filename": "^1.4.4",
+    "sprintf-js": "^1.0.3"
   },
   "devDependencies": {},
   "scripts": {
