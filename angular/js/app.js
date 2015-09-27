@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var app = angular.module(__global.appName, ["ngRoute"]);
+    var app = angular.module(__global.appName, ["ngRoute", "infinite-scroll"]);
     app.config(function ($routeProvider) {
         $routeProvider
             .when("/force", {
