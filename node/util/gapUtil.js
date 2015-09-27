@@ -5,9 +5,9 @@ var Q = require("q");
 var constants = require("./constants");
 var zero = require("./zero");
 
-function createUrlToThumbnail(fullUrl) {
-    var thumbnailUrl = fullUrl + "?format=1w";
-    return thumbnailUrl;
+function createDownloadUrlForImage(url) {
+    var downloadUrl = url + "?format=200w";
+    return downloadUrl;
 }
 
 function urlFromPath(path) {
@@ -84,7 +84,7 @@ module.exports = {
     pathToFirstPostOnHomePage: pathToFirstPostOnHomePage,
     pathToFirstImageOnPostPage: pathToFirstImageOnPostPage,
     urlFromPath: urlFromPath,
-    createUrlToThumbnail: createUrlToThumbnail,
+    createUrlToThumbnail: createDownloadUrlForImage,
     title: title,
     pathToNextPost: pathToNextPost
 };
