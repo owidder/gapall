@@ -98,7 +98,7 @@ function saveImagesRecursively(pathToPage) {
     });
 }
 
-function readAllProcessedPaths() {
+function readAllImagesFile() {
     var defer = Q.defer();
 
     allProcessedPaths = {};
@@ -124,7 +124,7 @@ function readAllProcessedPaths() {
     return defer.promise;
 }
 
-readAllProcessedPaths().then(function() {
+readAllImagesFile().then(function() {
     var pathParam, lastPath;
 
     if (process.argv.length > 2) {
