@@ -2,6 +2,8 @@
     <h1>Pic Grid</h1>
 
     <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-        <img ng-repeat='image in images' ng-src='http://placehold.it/225x250&text={{image}}'>
+        <a ng-repeat='image in images' target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(image)}}">
+            <img ng-src='{{getImageUrlFromIndex(image)}}'>
+        </a>
     </div>
 </section>
