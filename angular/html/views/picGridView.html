@@ -7,8 +7,8 @@
     <h1>The complete Geek&Poke</h1>
 
     <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-        <a ng-repeat='image in images' target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(image)}}">
-            <img ng-src='{{getImageUrlFromIndex(image)}}'>
+        <a ng-repeat='index in indices' target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
+            <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
         </a>
     </div>
 </section>
