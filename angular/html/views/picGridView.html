@@ -4,6 +4,10 @@
             background: lightgray;
         }
 
+        img {
+            max-width: 22vw;
+        }
+
         .polaroid {
             position: relative;
             /* width: 220px; */
@@ -36,11 +40,11 @@
 
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row">
-        <span class="col polaroid" ng-repeat='index in indices'>
-            <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
-                <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
-            </a>
-        </span>
+            <span class="col polaroid" ng-repeat='index in indices'>
+                <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
+                    <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
+                </a>
+            </span>
         </div>
         <!--
         -->
