@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q) {
+angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, util) {
     var ALL_IMAGES_DELIMITER = "_#_";
     var ALL_IMAGES_URL = "../node/allImages.txt";
     var IMAGE_FOLDER = "../node/images/";
@@ -14,17 +14,38 @@ angular.module(__global.appName).controller("picGridController", function ($scop
     function readImages() {
         var deferred = $q.defer();
 
+        function greDateFromPath(path) {
+            var date = "???";
+
+            var regresult = /(\d+\/\d+\/\d+)/.exec(path);
+
+            if(util.isSet(regresult)) {
+                date = regresult[1];
+            }
+            else {
+                regresult = /(\d+\/\d+)/.exec(path);
+                if(util.isSet(regresult)) {
+                    date = regresult[1];
+                }
+            }
+
+            return date;
+        }
+
         $http.get(ALL_IMAGES_URL).then(function(data) {
             posts = [];
             var lines = data.data.split("\n");
             lines.forEach(function(line) {
                 var parts = line.split(ALL_IMAGES_DELIMITER);
+                var date = greDateFromPath(parts[3]);
+
                 var post = {
                     src: parts[0],
                     filename: parts[1],
                     title: parts[2],
                     pathToPage: parts[3],
-                    pathToNextPage: parts[4]
+                    pathToNextPage: parts[4],
+                    date: date
                 };
 
                 posts.push(post);
@@ -34,6 +55,10 @@ angular.module(__global.appName).controller("picGridController", function ($scop
         });
 
         return deferred.promise;
+    }
+
+    function getDateFromIndex(index) {
+        return posts[index].date;
     }
 
     function getTitleFromIndex(index) {
@@ -74,5 +99,6 @@ angular.module(__global.appName).controller("picGridController", function ($scop
         $scope.getImageUrlFromIndex = getImageUrlFromIndex;
         $scope.getPostPathFromIndex = getPostPathFromIndex;
         $scope.getTitleFromIndex = getTitleFromIndex;
+        $scope.getDateFromIndex = getDateFromIndex;
     });
 });

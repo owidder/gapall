@@ -31,18 +31,19 @@
             color: #888;
         }
 
-        h1 {
+        .courier {
             font-family: "Courier New","Courier","monospace";
         }
 
     </style>
-    <h1>The complete Geek&Poke</h1>
+    <h1 class="courier">The complete Geek&Poke</h1>
 
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row">
             <span class="col polaroid" ng-repeat='index in indices'>
                 <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
                     <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
+                    <p class="courier">{{getDateFromIndex(index)}}</p>
                 </a>
             </span>
         </div>
