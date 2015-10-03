@@ -4,13 +4,9 @@
             background: lightgray;
         }
 
-        img {
-            max-width: 25%;
-        }
-
         .polaroid {
             position: relative;
-            width: 220px;
+            /* width: 220px; */
             margin-left: 1em;
             margin-top: 1em;
         }
@@ -31,15 +27,21 @@
             color: #888;
         }
 
+        h1 {
+            font-family: "Courier New","Courier","monospace";
+        }
+
     </style>
     <h1>The complete Geek&Poke</h1>
 
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-        <span class="polaroid" ng-repeat='index in indices'>
+        <div class="row">
+        <span class="col polaroid" ng-repeat='index in indices'>
             <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
                 <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
             </a>
         </span>
+        </div>
         <!--
         -->
     </div>
