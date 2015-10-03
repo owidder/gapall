@@ -1,14 +1,46 @@
 <section>
     <style>
+        .infinite-scroll {
+            background: lightgray;
+        }
+
         img {
             max-width: 25%;
         }
+
+        .polaroid {
+            position: relative;
+            width: 220px;
+            margin-left: 1em;
+            margin-top: 1em;
+        }
+
+        .polaroid img {
+            border: 10px solid #fff;
+            border-bottom: 45px solid #fff;
+            -webkit-box-shadow: 3px 3px 3px #777;
+            -moz-box-shadow: 3px 3px 3px #777;
+            box-shadow: 3px 3px 3px #777;
+        }
+
+        .polaroid p {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            bottom: 0px;
+            color: #888;
+        }
+
     </style>
     <h1>The complete Geek&Poke</h1>
 
-    <div infinite-scroll='loadMore()' infinite-scroll-distance='2'>
-        <a ng-repeat='index in indices' target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
-            <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
-        </a>
+    <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
+        <span class="polaroid" ng-repeat='index in indices'>
+            <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
+                <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
+            </a>
+        </span>
+        <!--
+        -->
     </div>
 </section>
