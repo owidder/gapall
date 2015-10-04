@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapUtil, util) {
+angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapImages, gapUtil, util) {
     var IMAGE_FOLDER = "../node/images/";
 
     var INITIAL_NUMBER_OF_IMAGES = 20;
@@ -34,9 +34,9 @@ angular.module(__global.appName).controller("picGridController", function ($scop
 
     function loadMore() {
         var lastIndex = indices[indices.length - 1];
-        if(lastIndex < posts.length - 1) {
+        if(lastIndex < gapImages.count() - 1) {
             for (var i = 1; i <= NUMBER_OF_IMAGES_TO_LOAD; i++) {
-                if(lastIndex + i < posts.length) {
+                if(lastIndex + i < gapImages.count()) {
                     indices.push(lastIndex + i);
                 }
             }
@@ -46,13 +46,11 @@ angular.module(__global.appName).controller("picGridController", function ($scop
     var shuffleSwitch = 1;
     var shuffleIcon = "shuffle";
 
-    gapUtil.readImages().then(function(data) {
-        posts = data;
-
+    gapImages.ready.then(function() {
         if($routeParams.shuffle == 1) {
             shuffleSwitch = 0;
             shuffleIcon = "arrow_forward";
-            util.shuffleArray(posts);
+            gapImages.shuffle();
         }
 
         init();
