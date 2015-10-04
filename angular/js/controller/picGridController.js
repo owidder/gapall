@@ -91,11 +91,21 @@ angular.module(__global.appName).controller("picGridController", function ($scop
         }
     }
 
+    var shuffleSwitch = 1;
+    var shuffleIcon = "shuffle";
+
     readImages().then(function() {
         if($routeParams.shuffle == 1) {
+            shuffleSwitch = 0;
+            shuffleIcon = "arrow_forward";
             util.shuffleArray(posts);
         }
+
         init();
+
+        $scope.shuffleSwitch = shuffleSwitch;
+        $scope.shuffleIcon = shuffleIcon;
+
         $scope.indices = indices;
         $scope.loadMore = loadMore;
 

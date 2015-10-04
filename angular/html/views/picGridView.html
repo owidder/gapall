@@ -8,6 +8,11 @@
             max-width: 22vw;
         }
 
+        .btn-floating {
+            margin-left: 1em;
+            margin-top: 1em;
+        }
+
         .polaroid {
             position: relative;
             /* width: 220px; */
@@ -36,6 +41,7 @@
         }
 
     </style>
+    <a class="btn-floating grey" href="#/picgrid?shuffle={{shuffleSwitch}}"><i class="material-icons">{{shuffleIcon}}</i></a>
     <h1 class="courier">The complete Geek&Poke</h1>
 
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
