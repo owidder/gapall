@@ -14,7 +14,7 @@ angular.module(__global.appName).controller("picGridController", function ($scop
     function readImages() {
         var deferred = $q.defer();
 
-        function greDateFromPath(path) {
+        function grepDateFromPath(path) {
             var date = "???";
 
             var regresult = /(\d+\/\d+\/\d+)/.exec(path);
@@ -37,7 +37,7 @@ angular.module(__global.appName).controller("picGridController", function ($scop
             var lines = data.data.split("\n");
             lines.forEach(function(line) {
                 var parts = line.split(ALL_IMAGES_DELIMITER);
-                var date = greDateFromPath(parts[3]);
+                var date = grepDateFromPath(parts[3]);
 
                 var post = {
                     src: parts[0],
