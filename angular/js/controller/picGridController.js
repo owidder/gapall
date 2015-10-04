@@ -1,8 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, util) {
-    var ALL_IMAGES_DELIMITER = "_#_";
-    var ALL_IMAGES_URL = "../node/allImages.txt";
+angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapUtil, util) {
     var IMAGE_FOLDER = "../node/images/";
 
     var INITIAL_NUMBER_OF_IMAGES = 20;
@@ -10,52 +8,6 @@ angular.module(__global.appName).controller("picGridController", function ($scop
 
     var posts;
     var indices;
-
-    function readImages() {
-        var deferred = $q.defer();
-
-        function grepDateFromPath(path) {
-            var date = "???";
-
-            var regresult = /(\d+\/\d+\/\d+)/.exec(path);
-
-            if(util.isSet(regresult)) {
-                date = regresult[1];
-            }
-            else {
-                regresult = /(\d+\/\d+)/.exec(path);
-                if(util.isSet(regresult)) {
-                    date = regresult[1];
-                }
-            }
-
-            return date;
-        }
-
-        $http.get(ALL_IMAGES_URL).then(function(data) {
-            posts = [];
-            var lines = data.data.split("\n");
-            lines.forEach(function(line) {
-                var parts = line.split(ALL_IMAGES_DELIMITER);
-                var date = grepDateFromPath(parts[3]);
-
-                var post = {
-                    src: parts[0],
-                    filename: parts[1],
-                    title: parts[2],
-                    pathToPage: parts[3],
-                    pathToNextPage: parts[4],
-                    date: date
-                };
-
-                posts.push(post);
-            });
-
-            deferred.resolve();
-        });
-
-        return deferred.promise;
-    }
 
     function getDateFromIndex(index) {
         return posts[index].date;
@@ -94,7 +46,9 @@ angular.module(__global.appName).controller("picGridController", function ($scop
     var shuffleSwitch = 1;
     var shuffleIcon = "shuffle";
 
-    readImages().then(function() {
+    gapUtil.readImages().then(function(data) {
+        posts = data;
+
         if($routeParams.shuffle == 1) {
             shuffleSwitch = 0;
             shuffleIcon = "arrow_forward";
