@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, util) {
+angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, util) {
     var ALL_IMAGES_DELIMITER = "_#_";
     var ALL_IMAGES_URL = "../node/allImages.txt";
     var IMAGE_FOLDER = "../node/images/";
@@ -92,6 +92,9 @@ angular.module(__global.appName).controller("picGridController", function ($scop
     }
 
     readImages().then(function() {
+        if($routeParams.shuffle == 1) {
+            util.shuffleArray(posts);
+        }
         init();
         $scope.indices = indices;
         $scope.loadMore = loadMore;
