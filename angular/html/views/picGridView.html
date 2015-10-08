@@ -47,9 +47,9 @@
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row">
             <span class="col polaroid" ng-repeat='index in indices'>
-                <a target="_blank" href="http://geek-and-poke.com{{getPostPathFromIndex(index)}}">
-                    <img ng-src='{{getImageUrlFromIndex(index)}}' title="{{getTitleFromIndex(index)}}">
-                    <p class="courier">{{getDateFromIndex(index)}}</p>
+                <a target="_blank" href="http://geek-and-poke.com{{gapImages.getPostPathFromIndex(index)}}">
+                    <img ng-src='{{gapImages.getImageUrlFromIndex(index)}}' title="{{gapImages.getTitleFromIndex(index)}}">
+                    <p class="courier">{{gapImages.getDateFromIndex(index)}}</p>
                 </a>
             </span>
         </div>

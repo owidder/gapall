@@ -43,14 +43,19 @@ angular.module(__global.appName).controller("picGridController", function ($scop
         }
     }
 
-    var shuffleSwitch = 1;
-    var shuffleIcon = "shuffle";
+    var shuffleSwitch;
+    var shuffleIcon;
 
     gapImages.ready.then(function() {
         if($routeParams.shuffle == 1) {
             shuffleSwitch = 0;
             shuffleIcon = "arrow_forward";
             gapImages.shuffle();
+        }
+        else {
+            shuffleSwitch = 1;
+            shuffleIcon = "shuffle";
+            gapImages.sortByDate();
         }
 
         init();
@@ -60,6 +65,8 @@ angular.module(__global.appName).controller("picGridController", function ($scop
 
         $scope.indices = indices;
         $scope.loadMore = loadMore;
+
+        $scope.gapImages = gapImages;
 
         $scope.getImageUrlFromIndex = getImageUrlFromIndex;
         $scope.getPostPathFromIndex = getPostPathFromIndex;
