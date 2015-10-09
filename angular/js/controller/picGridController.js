@@ -1,8 +1,6 @@
 'use strict';
 
 angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapImages) {
-    var IMAGE_FOLDER = "../node/images/";
-
     var INITIAL_NUMBER_OF_IMAGES = 20;
     var NUMBER_OF_IMAGES_TO_LOAD = 10;
 
