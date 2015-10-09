@@ -87,7 +87,7 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
             var month = dateParts[1];
             var day = dateParts[2];
 
-            var number = (year*1000) + (month*20) + day;
+            var number = (year*10000) + (month*100) + day;
 
             return number;
         }

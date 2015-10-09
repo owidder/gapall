@@ -1,29 +1,12 @@
 'use strict';
 
-angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapImages, gapUtil, util) {
+angular.module(__global.appName).controller("picGridController", function ($scope, $http, $q, $routeParams, gapImages) {
     var IMAGE_FOLDER = "../node/images/";
 
     var INITIAL_NUMBER_OF_IMAGES = 20;
     var NUMBER_OF_IMAGES_TO_LOAD = 10;
 
-    var posts;
     var indices;
-
-    function getDateFromIndex(index) {
-        return posts[index].date;
-    }
-
-    function getTitleFromIndex(index) {
-        return posts[index].title;
-    }
-
-    function getImageUrlFromIndex(index) {
-        return IMAGE_FOLDER + posts[index].filename;
-    }
-
-    function getPostPathFromIndex(index) {
-        return posts[index].pathToPage;
-    }
 
     function init() {
         indices = [];
@@ -67,10 +50,5 @@ angular.module(__global.appName).controller("picGridController", function ($scop
         $scope.loadMore = loadMore;
 
         $scope.gapImages = gapImages;
-
-        $scope.getImageUrlFromIndex = getImageUrlFromIndex;
-        $scope.getPostPathFromIndex = getPostPathFromIndex;
-        $scope.getTitleFromIndex = getTitleFromIndex;
-        $scope.getDateFromIndex = getDateFromIndex;
     });
 });
