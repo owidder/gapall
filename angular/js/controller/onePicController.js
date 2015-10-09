@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module(__global.appName).controller("onePicController", function(gapUtil) {
+angular.module(__global.appName).controller("onePicController", function($scope, gapImages) {
 
-    var posts;
-
-    gapUtil.readImages().then(function(data) {
-        posts = data;
+    gapImages.ready.then(function(data) {
+        var index = Math.floor(Math.random() * gapImages.count);
+        $scope.url = gapImages.getImageUrlFromIndex(index);
+        $scope.title = gapImages.getTitleFromIndex(index);
     });
 });

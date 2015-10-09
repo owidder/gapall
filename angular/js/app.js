@@ -8,6 +8,10 @@
                 templateUrl: "html/views/picGridView.html",
                 controller: "picGridController"
             })
+            .when("/onepic", {
+                templateUrl: "html/views/onePicView.html",
+                controller: "onePicController"
+            })
             .otherwise({
                 redirectTo: "/picgrid"
             });
