@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).directive("cartoonImage", function($timeout, gapImages) {
+angular.module(__global.appName).directive("cartoonImage", function($timeout, gapImages, util) {
     function link(scope) {
 
         function setStyle(style, value, unit) {
@@ -13,9 +13,20 @@ angular.module(__global.appName).directive("cartoonImage", function($timeout, ga
                 scope.title = gapImages.getTitleFromIndex(scope.index);
                 scope.postUrl = gapImages.getPostPathFromIndex(scope.index);
                 scope.date = gapImages.getDateFromIndex(scope.index);
-                
-                setStyle("max-height", scope.maxHeightVh, "vh");
-                setStyle("max-width", scope.maxWidthVw, "vw");
+
+                if(util.isSet(scope.maxHeightVh)) {
+                    setStyle("max-height", scope.maxHeightVh, "vh");
+                }
+                else {
+                    setStyle("max-height", 100, "%");
+                }
+
+                if(util.isSet(scope.maxWidthVw)) {
+                    setStyle("max-width", scope.maxWidthVw, "vw");
+                }
+                else {
+                    setStyle("max-width", 100, "%");
+                }
             });
         });
     }

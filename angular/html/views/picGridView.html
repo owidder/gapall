@@ -4,40 +4,13 @@
             background: lightgray;
         }
 
-        img {
-            max-width: 22vw;
-        }
-
         .btn-floating {
             margin-left: 1em;
             margin-top: 1em;
         }
 
-        .polaroid {
-            position: relative;
-            /* width: 220px; */
-            margin-left: 1em;
+        .col {
             margin-top: 1em;
-        }
-
-        .polaroid img {
-            border: 10px solid #fff;
-            border-bottom: 45px solid #fff;
-            -webkit-box-shadow: 3px 3px 3px #777;
-            -moz-box-shadow: 3px 3px 3px #777;
-            box-shadow: 3px 3px 3px #777;
-        }
-
-        .polaroid p {
-            position: absolute;
-            text-align: center;
-            width: 100%;
-            bottom: 0px;
-            color: #888;
-        }
-
-        .courier {
-            font-family: "Courier New","Courier","monospace";
         }
 
     </style>
@@ -46,11 +19,8 @@
 
     <div class="infinite-scroll" infinite-scroll='loadMore()' infinite-scroll-distance='2'>
         <div class="row">
-            <span class="col polaroid" ng-repeat='index in indices'>
-                <a target="_blank" href="http://geek-and-poke.com{{gapImages.getPostPathFromIndex(index)}}">
-                    <img ng-src='{{gapImages.getImageUrlFromIndex(index)}}' title="{{gapImages.getTitleFromIndex(index)}}">
-                    <p class="courier">{{gapImages.getDateFromIndex(index)}}</p>
-                </a>
+            <span class="col s12 m6 l3" ng-repeat="index in indices">
+                <cartoon-image index="{{index}}"></cartoon-image>
             </span>
         </div>
         <!--
