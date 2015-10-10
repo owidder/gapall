@@ -11,38 +11,6 @@
             margin-right: 1em;
         }
 
-        img {
-            max-height: 90vh;
-            max-width: 90vw;
-        }
-
-        .polaroid {
-            position: relative;
-            /* width: 220px; */
-            margin-left: 1em;
-            margin-top: 1em;
-        }
-
-        .polaroid img {
-            border: 10px solid #fff;
-            border-bottom: 45px solid #fff;
-            -webkit-box-shadow: 3px 3px 3px #777;
-            -moz-box-shadow: 3px 3px 3px #777;
-            box-shadow: 3px 3px 3px #777;
-        }
-
-        .polaroid p {
-            position: absolute;
-            text-align: center;
-            width: 100%;
-            bottom: 0px;
-            color: #888;
-        }
-
-        .courier {
-            font-family: "Courier New","Courier","monospace";
-        }
-
     </style>
 
     <div class="flex">
@@ -50,12 +18,7 @@
         <span class="item">
             <button ng-click="reload()" class="btn-floating grey"><i class="material-icons">skip_next</i></button>
         </span>
-        <span class="polaroid">
-            <a href="http://geek-and-poke.com{{postUrl}}">
-                <img ng-src='{{url}}' title="{{title}}">
-                <p class="courier">{{date}}</p>
-            </a>
-        </span>
+        <cartoon-image index="{{index}}" max-height-vh="90" max-width-vw="90"></cartoon-image>
     </div>
 </section>
 

@@ -1,0 +1,35 @@
+<section>
+    <style>
+        .polaroid {
+            position: relative;
+            /* width: 220px; */
+            margin-left: 1em;
+            margin-top: 1em;
+        }
+
+        .polaroid img {
+            border: 10px solid #fff;
+            border-bottom: 45px solid #fff;
+            -webkit-box-shadow: 3px 3px 3px #777;
+            -moz-box-shadow: 3px 3px 3px #777;
+            box-shadow: 3px 3px 3px #777;
+        }
+
+        .polaroid p {
+            position: absolute;
+            text-align: center;
+            width: 100%;
+            bottom: 0px;
+            color: #888;
+            font-family: "Courier New","Courier","monospace";
+        }
+    </style>
+
+
+    <span class="polaroid">
+        <a href="http://geek-and-poke.com{{postUrl}}">
+            <img id="img{{index}}" ng-src='{{url}}' title="{{title}}">
+            <p>{{date}}</p>
+        </a>
+    </span>
+</section>

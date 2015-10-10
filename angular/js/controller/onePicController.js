@@ -8,10 +8,8 @@ angular.module(__global.appName).controller("onePicController", function($scope,
 
     gapImages.ready.then(function(data) {
         var index = Math.floor(Math.random() * gapImages.count());
-        $scope.url = gapImages.getImageUrlFromIndex(index);
-        $scope.title = gapImages.getTitleFromIndex(index);
-        $scope.postUrl = gapImages.getPostPathFromIndex(index);
-        $scope.date = gapImages.getDateFromIndex(index);
+
+        $scope.index = index;
         $scope.reload = reload;
     });
 });
