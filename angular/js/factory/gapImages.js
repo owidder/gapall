@@ -6,6 +6,7 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
     var ALL_IMAGES_URL = "../node/allImages.txt";
 
     var images;
+    var dateToIndexMap;
     var imagesReadPromise;
 
     function readImages() {
@@ -34,7 +35,9 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
 
         $http.get(ALL_IMAGES_URL).then(function(data) {
             images = [];
+            dateToIndexMap = {};
             var lines = data.data.split("\n");
+            var index = 0;
             lines.forEach(function(line) {
                 if(line.length > 5) {
                     var parts = line.split(ALL_IMAGES_DELIMITER);
@@ -50,6 +53,7 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
                     };
 
                     images.push(post);
+                    dateToIndexMap[date] = index++;
                 }
             });
 
@@ -74,6 +78,10 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
 
     function getPostPathFromIndex(index) {
         return images[index].pathToPage;
+    }
+
+    function getIndexFromDate(date) {
+        return dateToIndexMap[date] ;
     }
 
     function shuffle() {
@@ -118,6 +126,7 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
         getTitleFromIndex: getTitleFromIndex,
         getImageUrlFromIndex: getImageUrlFromIndex,
         getPostPathFromIndex: getPostPathFromIndex,
+        getIndexFromDate:getIndexFromDate,
         shuffle: shuffle,
         sortByDate: sortByDate,
         count: count,

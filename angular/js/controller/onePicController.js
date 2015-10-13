@@ -1,18 +1,24 @@
 'use strict';
 
-angular.module(__global.appName).controller("onePicController", function($scope, $route, $location, gapImages) {
-    var INDEX_PARAM = "index";
+angular.module(__global.appName).controller("onePicController", function($scope, $route, $location, gapImages, util) {
+    var DATE_PARAM = "date";
 
     function reload() {
-        $location.search(INDEX_PARAM, "");
+        $location.search(DATE_PARAM, "");
         $route.reload();
     }
 
     gapImages.ready.then(function(data) {
-        var index = parseInt($location.search()[INDEX_PARAM]);
-        if(!(index > 0)) {
+        var index = 0;
+        var date = $location.search()[DATE_PARAM];
+
+        if(util.isSet(date)) {
+            index = gapImages.getIndexFromDate(date);
+        }
+        else {
             index = Math.floor(Math.random() * gapImages.count());
-            $location.search("index", index);
+            date = gapImages.getDateFromIndex(index);
+            $location.search(DATE_PARAM, date);
         }
 
         $scope.index = index;
