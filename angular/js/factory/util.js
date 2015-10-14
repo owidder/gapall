@@ -14,6 +14,10 @@ angular.module(__global.appName).factory("util", function() {
         return (isDefined(v) && v != null);
     }
 
+    function isNotEmpty(v) {
+        return isSet(v) && v.length > 0;
+    }
+
     /**
      * from: http://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
      * thanks to: http://stackoverflow.com/users/310500/laurens-holst
@@ -33,6 +37,7 @@ angular.module(__global.appName).factory("util", function() {
     return {
         isDefined: isDefined,
         isSet: isSet,
+        isNotEmpty: isNotEmpty,
         shuffleArray: shuffleArray
     }
 });

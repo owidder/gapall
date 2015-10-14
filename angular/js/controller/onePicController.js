@@ -12,7 +12,7 @@ angular.module(__global.appName).controller("onePicController", function($scope,
         var index = 0;
         var date = $location.search()[DATE_PARAM];
 
-        if(util.isSet(date)) {
+        if(util.isNotEmpty(date)) {
             index = gapImages.getIndexFromDate(date);
         }
         else {
