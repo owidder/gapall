@@ -3,11 +3,16 @@
 angular.module(__global.appName).controller("onePicController", function($scope, $route, $location, $timeout, gapImages, util) {
     var DATE_PARAM = "date";
     var PLAY_PARAM = "play";
+
     var PLAY_ICON = "play_arrow";
     var STOP_ICON = "stop";
 
+    var PLAY_TITLE = "play";
+    var STOP_TITLE = "stop";
+
     var playPromise;
     var playStopIcon = PLAY_ICON;
+    var playStopTitle = PLAY_TITLE;
 
     function random() {
         $location.search(DATE_PARAM, "");
@@ -17,10 +22,12 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     function playStop() {
         if(playStopIcon == PLAY_ICON) {
             playStopIcon = STOP_ICON;
+            playStopTitle = STOP_TITLE;
             play();
         }
         else {
             playStopIcon = PLAY_ICON;
+            playStopTitle = PLAY_TITLE;
             stop();
         }
     }
@@ -63,7 +70,8 @@ angular.module(__global.appName).controller("onePicController", function($scope,
 
         $scope.index = index;
         $scope.random = random;
-        $scope.play = play;
-        $scope.stop = stop;
+        $scope.playStop = playStop;
+        $scope.playStopIcon = playStopIcon;
+        $scope.playStopTitle = playStopTitle;
     });
 });

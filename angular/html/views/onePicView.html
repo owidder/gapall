@@ -23,7 +23,7 @@
 
         <span class="item">
             <button title="next random cartoon" ng-click="random()" class="btn-floating grey"><i class="material-icons">skip_next</i></button>
-            <button title="play/stop" ng-click="random()" class="btn-floating grey"><i class="material-icons">skip_next</i></button>
+            <button title="{{playStopTitle}}" ng-click="playStop()" class="btn-floating grey"><i class="material-icons">skip_next</i></button>
             <a title="grid view" class="btn-floating grey" href="#/picgrid"><i class="material-icons">apps</i></a>
         </span>
         <cartoon-image index="{{index}}" max-height-vh="90"></cartoon-image>
