@@ -37,7 +37,7 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     function setPlayTimer() {
         $timeout(function() {
             nextInPlay();
-        }, 10000);
+        }, 30000);
     }
 
     function play() {
