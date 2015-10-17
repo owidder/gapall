@@ -34,10 +34,15 @@ angular.module(__global.appName).factory("util", function() {
         return array;
     }
 
+    function greaterThanZero(v) {
+        return isSet(v) && parseInt(v) > 0;
+    }
+
     return {
         isDefined: isDefined,
         isSet: isSet,
         isNotEmpty: isNotEmpty,
-        shuffleArray: shuffleArray
+        shuffleArray: shuffleArray,
+        greaterThanZero: greaterThanZero
     }
 });
