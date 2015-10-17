@@ -10,37 +10,42 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     var PLAY_TITLE = "play";
     var STOP_TITLE = "stop";
 
-    var playPromise;
     var playStopIcon = PLAY_ICON;
     var playStopTitle = PLAY_TITLE;
 
     function random() {
         $location.search(DATE_PARAM, "");
-        $route.reload();
+    }
+
+    function nextInPlay() {
+        var play = $location.search()[PLAY_PARAM];
+        if(play == 1) {
+            setPlayTimer();
+            random();
+        }
     }
 
     function playStop() {
         if(playStopIcon == PLAY_ICON) {
-            playStopIcon = STOP_ICON;
-            playStopTitle = STOP_TITLE;
             play();
         }
         else {
-            playStopIcon = PLAY_ICON;
-            playStopTitle = PLAY_TITLE;
             stop();
         }
     }
 
+    function setPlayTimer() {
+        $timeout(function() {
+            nextInPlay();
+        }, 10000);
+    }
+
     function play() {
+        setPlayTimer();
         $location.search(PLAY_PARAM, 1);
-        $route.reload();
     }
 
     function stop() {
-        if(util.isSet(playPromise)) {
-            $timeout.cancel(playPromise);
-        }
         $location.search(PLAY_PARAM, 0);
     }
 
@@ -59,13 +64,12 @@ angular.module(__global.appName).controller("onePicController", function($scope,
         }
 
         if(play == 1) {
-            playPromise = $timeout(function() {
-                playPromise = undefined;
-                random();
-            }, 10000);
+            playStopIcon = STOP_ICON;
+            playStopTitle = STOP_TITLE;
         }
         else {
-            playStopIcon = "play_arrow";
+            playStopIcon = PLAY_ICON;
+            playStopTitle = PLAY_TITLE;
         }
 
         $scope.index = index;
