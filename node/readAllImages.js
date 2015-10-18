@@ -125,24 +125,10 @@ function readAllImagesFile() {
 }
 
 readAllImagesFile().then(function() {
-    var pathParam, lastPath;
-
-    if (process.argv.length > 2) {
-        pathParam = process.argv[2];
-        if(pathParam == "l") {
-            lastPath = allProcessedPaths[allProcessedPaths.length - 1];
-            saveImagesRecursively(lastPath);
-        }
-        else {
-            saveImagesRecursively(pathParam);
-        }
-    }
-    else {
-        getPathToFirstPost().then(function (pathToPage) {
-                saveImagesRecursively(pathToPage);
-            },
-            function (error) {
-                console.error(error);
-            });
-    }
+    getPathToFirstPost().then(function (pathToPage) {
+            saveImagesRecursively(pathToPage);
+        },
+        function (error) {
+            console.error(error);
+        });
 });
