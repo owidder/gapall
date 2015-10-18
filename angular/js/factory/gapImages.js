@@ -91,9 +91,9 @@ angular.module(__global.appName).factory("gapImages", function($http, $q, util) 
     function sortByDate() {
         function dateToNumber(date) {
             var dateParts = date.split("/");
-            var year = dateParts[0];
-            var month = dateParts[1];
-            var day = dateParts[2];
+            var year = parseInt(dateParts[0]);
+            var month = parseInt(dateParts[1]);
+            var day = parseInt(dateParts[2]);
 
             var number = (year*10000) + (month*100) + day;
 
