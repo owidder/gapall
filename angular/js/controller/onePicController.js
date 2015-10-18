@@ -21,6 +21,12 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     var playStopIcon = PLAY_ICON;
     var playStopTitle = PLAY_TITLE;
 
+    /**
+     * to check if a timer is still valid
+     * @type {undefined}
+     */
+    var currentTimerId = undefined;
+
     function getMode() {
         var play = $location.search()[PLAY_PARAM];
         if(util.greaterThanZero(play)) {
@@ -33,7 +39,7 @@ angular.module(__global.appName).controller("onePicController", function($scope,
 
     function hasDurationChanged() {
         var paramDuration = $location.search()[DURATION_PARAM];
-        if($scope.duration > 0 && paramDuration > 0 &&  $scope.duration != paramDuration) {
+        if($scope.duration > 0 && paramDuration > 0 && getMode() == MODE_PLAY && $scope.duration != paramDuration) {
             setDurationTimer();
             $location.search(DURATION_PARAM, $scope.duration * DURATION_FACTOR);
         }
@@ -47,9 +53,9 @@ angular.module(__global.appName).controller("onePicController", function($scope,
         $location.search(DATE_PARAM, "");
     }
 
-    function nextInPlay() {
+    function nextInPlay(guid) {
         var play = $location.search()[PLAY_PARAM];
-        if(play == 1) {
+        if(play == 1 && currentTimerId == guid) {
             setPlayTimer();
             random();
         }
@@ -65,8 +71,10 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     }
 
     function setPlayTimer() {
+        var guid = util.guid();
+        currentTimerId = guid;
         $timeout(function() {
-            nextInPlay();
+            nextInPlay(guid);
         }, 30000);
     }
 
