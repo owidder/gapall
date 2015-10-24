@@ -5,9 +5,14 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     var PLAY_PARAM = "play";
     var DURATION_PARAM = "duration";
 
+    var PLAY_PARAM_VALUE_START = "start";
+    var PLAY_PARAM_VALUE_PLAY = "play";
+    var PLAY_PARAM_VALUE_STOP = "stop";
+    var PLAY_PARAM_VALUE_IDLE = "idle";
+
     var DURATION_CHECK_INTERVAL = 1000;
     var DURATION_FACTOR = 1000;
-    var START_DURATION = 30;
+    var START_DURATION = 5;
 
     var PLAY_ICON = "play_arrow";
     var STOP_ICON = "stop";
@@ -50,7 +55,10 @@ angular.module(__global.appName).controller("onePicController", function($scope,
     }
 
     function random() {
-        $location.search(DATE_PARAM, "");
+        var search = {};
+        search[DATE_PARAM] = "";
+        search[PLAY_PARAM] = "";
+        $location.search(search);
     }
 
     function nextInPlay(guid) {
@@ -63,10 +71,10 @@ angular.module(__global.appName).controller("onePicController", function($scope,
 
     function playStop() {
         if(playStopIcon == PLAY_ICON) {
-            play();
+            $location.search(PLAY_PARAM, PLAY_PARAM_VALUE_START);
         }
         else {
-            stop();
+            $location.search(PLAY_PARAM, PLAY_PARAM_VALUE_IDLE);
         }
     }
 
@@ -75,16 +83,7 @@ angular.module(__global.appName).controller("onePicController", function($scope,
         currentTimerId = guid;
         $timeout(function() {
             nextInPlay(guid);
-        }, 30000);
-    }
-
-    function play() {
-        setPlayTimer();
-        $location.search(PLAY_PARAM, 1);
-    }
-
-    function stop() {
-        $location.search(PLAY_PARAM, 0);
+        }, START_DURATION);
     }
 
     gapImages.ready.then(function(data) {
@@ -102,7 +101,10 @@ angular.module(__global.appName).controller("onePicController", function($scope,
             $location.search(DATE_PARAM, date);
         }
 
-        if(util.greaterThanZero(play)) {
+        if(play == PLAY_PARAM_VALUE_START) {
+            setPlayTimer();
+        }
+        else if(play == PLAY_PARAM_VALUE_PLAY) {
             playStopIcon = STOP_ICON;
             playStopTitle = STOP_TITLE;
         }

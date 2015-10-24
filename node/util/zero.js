@@ -153,7 +153,7 @@ function removeElementFromArray(arr, el) {
 }
 
 function getWithDefault(obj, attributeName, defaultValue) {
-    let value = obj[attributeName];
+    var value = obj[attributeName];
     if(!isDefined(value)) {
        value = defaultValue;
         obj[attributeName] = value;
