@@ -29,5 +29,21 @@
     </g>
 </svg>
 
+<script>
+
+    function move() {
+        var rect = d3.select("rect");
+        var x = rect.attr("x");
+
+        if(x < 1000) {
+            rect.attr("x", Number(x)+1);
+            window.setTimeout(move, 10);
+        }
+    }
+
+    window.setTimeout(move, 1000);
+
+</script>
+
 </body>
 </html>
