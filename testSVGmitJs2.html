@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="bower_components/materialize/bin/materialize.css"
+          media="screen,projection"/>
+
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+
+    <meta charset="UTF-8">
+    <title>d3 Force Demo</title>
+
+    <style>
+        .bluerect {
+            fill:blue;
+            stroke:grey;
+            stroke-width:5;
+            fill-opacity:0.1;
+            stroke-opacity:0.9
+        }
+    </style>
+</head>
+<body>
+
+<svg height="500" width="1000">
+    <g transform="translate(100, 100)">
+    </g>
+</svg>
+
+<script>
+
+    var data = [
+        {
+            x: 100,
+            y:20,
+            r:10
+        },
+        {
+            x:200,
+            y:30,
+            r:20
+        },
+        {
+            x: 150,
+            y:70,
+            r:30
+        }
+    ];
+
+    function move() {
+        var g = d3.select("g");
+        g.selectAll("circle.node")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "node")
+                .attr("r", function(d) {
+                    return d.r;
+                })
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                });
+    }
+
+    window.setTimeout(move, 1000);
+
+</script>
+
+</body>
+</html>
