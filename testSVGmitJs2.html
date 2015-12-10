@@ -47,8 +47,16 @@
         }
     ];
 
-    function move() {
-        var g = d3.select("g");
+    var g = d3.select("g");
+
+    function updateData() {
+        data.forEach(function(d) {
+            d.x += Math.random() * 100;
+            d.y += Math.random() * 100;
+        });
+    }
+
+    function create() {
         g.selectAll("circle.node")
                 .data(data)
                 .enter()
@@ -65,7 +73,35 @@
                 });
     }
 
-    window.setTimeout(move, 1000);
+    function update() {
+        updateData();
+
+        g.selectAll("circle.node")
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                });
+    }
+
+    function updateWithTransition() {
+        updateData();
+
+        g.selectAll("circle.node")
+                .transition()
+                .duration(1000)
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                });
+    }
+
+    create();
+    window.setTimeout(update, 2000);
+    window.setTimeout(updateWithTransition, 5000);
 
 </script>
 
