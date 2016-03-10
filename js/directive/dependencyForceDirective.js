@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module(__global.appName).directive("dependencyForce", function (colorutil, util) {
+angular.module(__global.appName).directive("dependencyForce", function (colorutil, util, $timeout) {
     function link(scope) {
         var gLines;
         var gNodes;
@@ -174,8 +174,16 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
             nodesData.exit().remove();
         }
 
-        function linksEnterAndExit() {
+        function drawLinks() {
+            var oldLinks = d3.selectAll("line.link")[0].length;
+            var newLinks = force.links().length;
             var i = 0;
+
+            linksData = gLines.selectAll("line.link")
+                .data(force.links(), function (d) {
+                    return d.source.name + "-" + d.target.name;
+                });
+
             linksData.enter()
                 .append("svg:line")
                 .attr("class", function(d) {
@@ -184,20 +192,13 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
                 })
                 .style("stroke-width", .5);
 
-            console.log("i:" + i);
+            $timeout(function() {
+                scope.enter = i;
+                scope.old = oldLinks;
+                scope.new = newLinks;
+            });
 
             linksData.exit().remove();
-        }
-
-        function drawLinks() {
-            console.log("old links: " + d3.selectAll("line.link")[0].length)
-            console.log("new links: " + force.links().length);
-            linksData = gLines.selectAll("line.link")
-                .data(force.links(), function (d) {
-                    return d.source.name + "-" + d.target.name;
-                });
-
-            linksEnterAndExit();
         }
 
         function thresholdChanged() {

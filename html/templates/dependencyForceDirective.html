@@ -10,6 +10,10 @@
             opacity: 1;
         }
 
+        .xs {
+            font-size: x-small;
+        }
+
     </style>
 
     <form action="#">
@@ -17,5 +21,8 @@
             <input type="range" min="{{rangeMin}}" max="{{rangeMax}}" ng-change="thresholdChanged()" ng-model="rangeValue"/>
         </p>
     </form>
+    <span class="xs">
+        old: {{old}} / new: {{new}} / enter: {{enter}}
+    </span>
     <div id="{{forceId}}"></div>
 </section>
