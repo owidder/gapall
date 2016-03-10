@@ -12,7 +12,8 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
 
         var force;
         var nodes;
-        var links;
+        var links = [];
+        var linksData;
         var reverseNodesMap;
 
         var rangeScale;
@@ -64,7 +65,7 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
 
         function createLinks(countThreshold) {
             var distanceFunction = createDistanceFunction(1, 50);
-            links = [];
+            links.length = 0;
 
             dependencies.forEach(function (dependency) {
                 if (dependency.count >= countThreshold) {
@@ -173,18 +174,30 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
             nodesData.exit().remove();
         }
 
+        function linksEnterAndExit() {
+            var i = 0;
+            linksData.enter()
+                .append("svg:line")
+                .attr("class", function(d) {
+                    i++;
+                    return "link";
+                })
+                .style("stroke-width", .5);
+
+            console.log("i:" + i);
+
+            linksData.exit().remove();
+        }
+
         function drawLinks() {
-            var linksData = gLines.selectAll("line.link")
+            console.log("old links: " + d3.selectAll("line.link")[0].length)
+            console.log("new links: " + force.links().length);
+            linksData = gLines.selectAll("line.link")
                 .data(force.links(), function (d) {
                     return d.source.name + "-" + d.target.name;
                 });
 
-            linksData.enter()
-                .append("svg:line")
-                .attr("class", "link")
-                .style("stroke-width", .5);
-
-            linksData.exit().remove();
+            linksEnterAndExit();
         }
 
         function thresholdChanged() {
@@ -194,7 +207,6 @@ angular.module(__global.appName).directive("dependencyForce", function (coloruti
         function update(countThreshold) {
             force.stop();
             createLinks(countThreshold);
-            createForce();
             drawLinks();
             startForce();
         }
