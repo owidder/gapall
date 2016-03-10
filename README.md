@@ -5,3 +5,5 @@ Installation:
 * bower install
 * call index.html in a browser
 
+Demo: https://cdn.rawgit.com/owidder/solutions-SW-architecture-visual-demo/1.1/index.html#/force
+
