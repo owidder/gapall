@@ -63,7 +63,7 @@ angular.module(__global.appName).controller("onePicController", function($scope,
 
     function nextInPlay(guid) {
         var play = $location.search()[PLAY_PARAM];
-        if(play == 1 && currentTimerId == guid) {
+        if(play == PLAY_PARAM_VALUE_START && currentTimerId == guid) {
             setPlayTimer();
             random();
         }
